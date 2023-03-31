@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { StatusBar } from "expo-status-bar";
 import {
 	StyleSheet,
@@ -7,24 +7,51 @@ import {
 	TextInput,
 	TouchableOpacity,
 } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
-export default function AppForm() {
+export default function AppForm({ navigation }) {
+	const [descricao, setDescricao] = useState("");
+	const [quantidade, setQuantidade] = useState("");
+
+	function handleDescriptionChange(descricao) {
+		setDescricao(descricao);
+	}
+	function handleQuantityChange(quantidade) {
+		setQuantidade(quantidade);
+	}
+	async function handleButtonPress() {
+		const listItem = {
+			id: new Date().getTime(),
+			descricao,
+			quantidade: parseInt(quantidade),
+		};
+		let savedItems = [];
+		const response = await AsyncStorage.getItem("items");
+
+		if (response) savedItems = JSON.parse(response);
+		savedItems.push(listItem);
+
+		await AsyncStorage.setItem("items", JSON.stringify(savedItems));
+		navigation.navigate("AppList", listItem);
+	}
 	return (
 		<View style={styles.container}>
 			<Text style={styles.title}>Item para comprar</Text>
 			<View style={styles.inputContainer}>
 				<TextInput
 					style={styles.input}
+					onChangeText={handleDescriptionChange}
 					placeholder="O que está faltando em casa?"
 					clearButtonMode="always"
 				/>
 				<TextInput
 					style={styles.input}
+					onChangeText={handleQuantityChange}
 					placeholder="Digite a quantidade"
 					keyboardType={"numeric"}
 					clearButtonMode="always"
 				/>
-				<TouchableOpacity style={styles.button}>
+				<TouchableOpacity style={styles.button} onPress={handleButtonPress}>
 					<Text style={styles.buttonText}>Salvar</Text>
 				</TouchableOpacity>
 			</View>
@@ -33,55 +60,6 @@ export default function AppForm() {
 	);
 }
 
-1;
-2;
-3;
-4;
-5;
-6;
-7;
-8;
-9;
-10;
-11;
-12;
-13;
-14;
-15;
-16;
-17;
-18;
-19;
-20;
-21;
-22;
-23;
-24;
-25;
-26;
-27;
-28;
-29;
-30;
-31;
-32;
-33;
-34;
-35;
-36;
-37;
-38;
-39;
-40;
-41;
-42;
-43;
-44;
-45;
-46;
-47;
-48;
-49;
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
