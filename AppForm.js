@@ -29,7 +29,7 @@ export default function AppForm({ route, navigation }) {
 
 	async function handleButtonPress() {
 		const listItem = { descricao, quantidade: parseInt(quantidade) };
-		Database.saveItem(listItem).then((response) =>
+		Database.saveItem(listItem, id).then((response) =>
 			navigation.navigate("AppList", listItem)
 		);
 	}
@@ -54,7 +54,10 @@ export default function AppForm({ route, navigation }) {
 					value={quantidade.toString()}
 				/>
 				<TouchableOpacity style={styles.button} onPress={handleButtonPress}>
-					<Text style={styles.buttonText}>Salvar</Text>
+					<View style={styles.buttonContainer}>
+						<Icon name="save" size={22} color="white" />
+						<Text style={styles.buttonText}>Salvar</Text>
+					</View>
 				</TouchableOpacity>
 			</View>
 			<StatusBar style="light" />
